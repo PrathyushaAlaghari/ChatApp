@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AccountsService } from './accounts.service';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Chat App';
   users: any;
+  // model : any = {};
+  // loggedIn = false;
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private accountsService: AccountsService){}
 
   ngOnInit(): void {
     this.http.get('https://localhost:5001/api/user').subscribe(
@@ -21,6 +23,16 @@ export class AppComponent implements OnInit {
       }
     )
   }
+
+  // login() {
+  //   this.accountsService.login(this.model).subscribe({
+  //     next: reponse => {
+  //       console.log(reponse);
+  //       this.loggedIn = true;
+  //     },
+  //     error: error => console.log(error)
+  //   })
+  // }
 
 }
 
