@@ -1,27 +1,33 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AccountsService } from './accounts.service';
+import { User } from './models/user';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   users: any;
   // model : any = {};
   // loggedIn = false;
 
-  constructor(private http: HttpClient, private accountsService: AccountsService){}
+  constructor(
+    private http: HttpClient,
+    private accountsService: AccountsService
+  ) {}
 
   ngOnInit(): void {
-    this.http.get('https://localhost:5001/api/user').subscribe(
-      {
-        next : response => this.users = response,
-        error : error => console.log(error),
-        complete : () => console.log("http request is  complete")
-      }
-    )
+    this.setCurrentUser();
+  }
+
+  setCurrentUser() {
+    const userString = localStorage.getItem('user');
+    console.log('userString', userString);
+    if (!userString) return;
+    const user: User = JSON.parse(userString);
+    this.accountsService.setCurrentUser(user);
   }
 
   // login() {
@@ -33,6 +39,4 @@ export class AppComponent implements OnInit {
   //     error: error => console.log(error)
   //   })
   // }
-
 }
-
